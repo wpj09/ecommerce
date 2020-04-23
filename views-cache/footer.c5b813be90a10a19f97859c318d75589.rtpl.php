@@ -1,4 +1,4 @@
-<div class="brands-area">
+<?php if(!class_exists('Rain\Tpl')){exit;}?><div class="brands-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
             <div class="row">
