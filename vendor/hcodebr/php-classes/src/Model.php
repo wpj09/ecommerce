@@ -16,12 +16,12 @@ class Model {
 		{
 
 			case "get":
-				return $this->values[$fieldName];
-				break;
+				return (isset($this->values[$fieldName])) ? $this->values[$fieldName] : NULL;
+			break;
 
 			case "set":
 				$this->values[$fieldName] = $args[0];
-				break;
+			break;
 
 		}
 
