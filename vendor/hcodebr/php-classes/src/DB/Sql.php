@@ -10,7 +10,7 @@ class Sql {
 	const DBNAME = "db_ecommerce";
 
 	private $conn;
-
+	//criar a conexão
 	public function __construct()
 	{
 
@@ -39,7 +39,7 @@ class Sql {
 		$statement->bindParam($key, $value);
 
 	}
-
+	//só executa no banco
 	public function query($rawQuery, $params = array())
 	{
 
@@ -50,7 +50,7 @@ class Sql {
 		$stmt->execute();
 
 	}
-
+	//executa no banco e nos traz resposta
 	public function select($rawQuery, $params = array()):array
 	{
 

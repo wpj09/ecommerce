@@ -2,9 +2,9 @@
 
 use \Hcode\PageAdmin;
 use \Hcode\Model\User;
-
+//rota para chamar o administrativo
 $app->get('/admin', function() {
-    
+    //verificando se esta logado ou não
 	User::verifyLogin();
 
 	$page = new PageAdmin();
@@ -12,9 +12,9 @@ $app->get('/admin', function() {
 	$page->setTpl("index");
 
 });
-
+//rota para chamar tela de login
 $app->get('/admin/login', function(){
-
+	//como estamos usando rtl, a tela de login n tem o header e o footer por padrão, tem q desabilitar-la dando as opções.
 	$page = new PageAdmin([
 		"header"=>false,
 		"footer"=>false 
@@ -23,16 +23,16 @@ $app->get('/admin/login', function(){
 	$page->setTpl("login");
 
 });
-
+//rota para validação de login
 $app->post('/admin/login', function () {
 
 	User::login($_POST["login"], $_POST["password"]);
-
+	//redirecionamento requerido
 	header("Location: /admin");
 	exit;
 
 });
-
+//deslogando do sistema
 $app->get('/admin/logout', function() {
 
 	User::logout();
