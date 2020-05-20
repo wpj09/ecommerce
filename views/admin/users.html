@@ -35,9 +35,9 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {loop="$users"}
+                  {loop="$users"}<!-- Fazendo loop para setar os usuario em um atabela -->
                   <tr>
-                    <td>{$value.iduser}</td>
+                    <td>{$value.iduser}</td><!-- Parametros -->
                     <td>{$value.desperson}</td>
                     <td>{$value.desemail}</td>
                     <td>{$value.deslogin}</td/>
@@ -47,7 +47,7 @@
                       <a href="/admin/users/{$value.iduser}/delete" onclick="return confirm('Deseja realmente excluir este registro?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
                     </td>
                   </tr>
-                  {/loop}
+                  {/loop}<!-- fechamento do loop -->
                 </tbody>
               </table>
             </div>

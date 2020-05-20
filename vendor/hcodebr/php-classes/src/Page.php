@@ -44,7 +44,7 @@ class Page {
 		}
 
 	}
-	//metodo para html do conteudo
+	//metodo para mostrar no html do conteudo
 	public function setTpl($name, $data = array(), $returnHTML = false)
 	{
 

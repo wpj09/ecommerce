@@ -70,7 +70,7 @@ class User extends Model {
 		$_SESSION[User::SESSION] = NULL;
 
 	}
-
+	//Metodo para trazer todos os ususario.
 	public static function listALL()
 	{
 
@@ -79,12 +79,12 @@ class User extends Model {
 		return $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.desperson");
 
 	}
-
+	//Metodo para salvar um novo usuario
 	public function save()
 	{
 
 		$sql = new Sql();
-
+		//Procedure para salvar no banco e retornar, e usar a ordem q foi feito na procedure
 		$results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
 			":desperson"=>utf8_decode($this->getdesperson()),
 			":deslogin"=>$this->getdeslogin(),
@@ -97,7 +97,7 @@ class User extends Model {
 		$this->setData($results[0]);
 
 	}
-
+	//metodo para receber e setar os dados do usuario
 	public function get($iduser)
 	{
 
@@ -110,7 +110,7 @@ class User extends Model {
 		$this->setData($results[0]);
 
 	}
-
+	//metodo para atulizar cadastro
 	public function update()
 	{
 
