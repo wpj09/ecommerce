@@ -1,6 +1,6 @@
 <?php 
 
-namespace Hcode;
+namespace Just;
 
 use Rain\Tpl;
 
@@ -8,7 +8,7 @@ class Mailer {
 
 	const USERNAME = "testephp720@gmail.com";
 	const PASSWORD = "32693269";
-	const NAME_FROM = "Hcode Store";
+	const NAME_FROM = "Comercial Justi";
 
 	private $mail;
 
