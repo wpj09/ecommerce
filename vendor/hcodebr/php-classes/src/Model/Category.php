@@ -55,6 +55,8 @@ class  Category extends Model {
 			":idcategory"=>$this->getidcategory()
 		]);
 
+		Category::updateFile();
+
 	}
 
 	public static function updateFile()
@@ -141,7 +143,7 @@ class  Category extends Model {
 		$sql = new Sql();
 
 		$sql->query("INSERT INTO tb_productscategories (idcategory , idproduct) VALUES (:idcategory, :idproduct)", [
-			':idproduct'=>$this->getidcategory(),
+			':idcategory'=>$this->getidcategory(),
 			':idproduct'=>$product->getidproduct()
 		]);
 
@@ -154,7 +156,7 @@ class  Category extends Model {
 		$sql = new Sql();
 
 		$sql->query("DELETE FROM tb_productscategories WHERE idcategory = :idcategory AND idproduct = :idproduct", [
-			':idproduct'=>$this->getidcategory(),
+			':idcategory'=>$this->getidcategory(),
 			':idproduct'=>$product->getidproduct()
 		]);
 
