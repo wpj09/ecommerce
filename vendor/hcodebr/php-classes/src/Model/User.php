@@ -11,6 +11,53 @@ class User extends Model {
 	const SESSION = "User";//nome da sessão
 	const SECRET = "HcodePhp7_Secret";
 	//validando se existe um usuario e trazendo o hash e verificando se o hash é compativel com a senha enviada
+	public static function getFromSession()
+	{
+
+		$user = new User();
+
+		if (isset($_SESSION[User::SESSION]) && (int)$_SESSION[User::SESSION]['iduser'] > 0) {
+
+			$user->setData($_SESSION[User::SESSION]);
+
+		}
+
+		return $user;
+
+	}
+
+	public static function checkLogin($inadmin = true)
+	{
+
+		if (
+			!isset($_SESSION[User::SESSION])
+			||
+			!$_SESSION[User::SESSION]
+			||
+			!(int)$_SESSION[User::SESSION]["iduser"] > 0
+		) {
+			//não esta logado
+			return false;
+		} else {
+
+			if ($inadmin == true && $_SESSION[User::SESSION]["inadmin"] === true) {
+
+				return true;
+
+			} else if ($inadmin == false) {
+
+				return true;
+
+			} else {
+
+				return false;
+
+			}
+
+		}
+		
+	}
+
 	public static function login($login, $password)
 	{
 
@@ -47,15 +94,7 @@ class User extends Model {
 	public static function verifyLogin($inadmin = true)// inadmin serve para verificar se ele e adm ou não para ter acesso ao administrativo
 	{
 		//valida se ela n existir. Sendo falsa ela redireciona para o login
-		if (
-			!isset($_SESSION[User::SESSION])
-			||
-			!$_SESSION[User::SESSION]
-			||
-			!(int)$_SESSION[User::SESSION]["iduser"] > 0//Verifica se o usuario não for maior q 0
-			||
-			(bool)$_SESSION[User::SESSION]["inadmin"]!= $inadmin//verificação para ver se tem acesso a administracção também
-		) {
+		if (User::checkLogin($inadmin)) {
 
 			header("Location: /admin/login");
 			exit;
