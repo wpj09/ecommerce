@@ -1,3 +1,5 @@
 static/* linguist-vendored
-site_cartao/views/* linguist-vendored
-site_cartao/views-cache/* linguist-vendored
+ecommerce/res/* linguist-vendored
+ecommerce/vendor/* linguist-vendored
+ecommerce/views/* linguist-vendored
+ecommerce/views-cache/* linguist-vendored
