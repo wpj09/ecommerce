@@ -66,10 +66,10 @@ class User extends Model {
 
 		$sql = new Sql();
 		//evitar o sql injection =:LOGIN
-		$results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :LOGIN", array(
+		$results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.idperson = b.idperson WHERE a.deslogin = :LOGIN", array(
 			":LOGIN"=>$login
-		));
-		//Não encontrando 
+		)); 
+		//Não encontrando
 		if (count($results) === 0)
 		{//usa essa \ no Exception por que não criamos as nossa exeções, dai coloca ela para ir ao diretorio principal
 			throw new \Exception("Usuário inexistente ou senha inválida.");
@@ -86,15 +86,16 @@ class User extends Model {
 			//metodo magico
 			$user->setData($data);
 			//para usar um login cria-se uma sessão, caso n exista essa seção ela redireciona para a pagina de login
-			$_SESSION[User::SESSION] = $user->getValues();//trazer de detro do obejto quais são os seu valores
+			$_SESSION[User::SESSION] = $user->getValues();
 
 			return $user;
 
 		} else {
-			throw new \Exception("Usuário inexistente ou senha inválida");
+			throw new \Exception("Usuário inexistente ou senha inválida.");
 		}
 
 	}
+
 	//metodo para verificação de ligin no adm
 	public static function verifyLogin($inadmin = true)// inadmin serve para verificar se ele e adm ou não para ter acesso ao administrativo
 	{
@@ -161,7 +162,7 @@ class User extends Model {
 		$this->setData($results[0]);
 
 	}
-	//metodo para atulizar cadastro
+	//metodo para atualizar cadastro
 	public function update()
 	{
 
@@ -313,15 +314,6 @@ class User extends Model {
 
 	}
 
-	public static function getPasswordHash($password)
-	{
-
-		return password_hash($password, PASSWORD_DEFAULT, [
-			'cost'=>12
-		]);
-
-	}
-
 	public static function setError($msg)
 	{
 
@@ -347,6 +339,52 @@ class User extends Model {
 
 	}
 
+	public static function setErrorRegister($msg)
+	{
+
+		$_SESSION[User::ERROR_REGISTER] = $msg;
+
+	}
+
+	public static function getErrorRegister()
+	{
+
+		$msg = (isset($_SESSION[User::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR_REGISTER] : '';
+
+		User::clearErrorRegister();
+
+		return $msg;
+
+	}
+
+	public static function clearErrorRegister()
+	{
+
+		$_SESSION[User::ERROR_REGISTER] = NULL;
+
+	}
+
+	public static function checkLoginExist($login)
+	{
+
+		$sql = new Sql();
+
+		$results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :deslogin", [
+			':deslogin'=>$login
+		]);
+
+		return (count($results) > 0);
+
+	}
+
+	public static function getPasswordHash($password)
+	{
+
+		return password_hash($password, PASSWORD_DEFAULT, [
+			'cost'=>12
+		]);
+
+	}
 
 }
 
