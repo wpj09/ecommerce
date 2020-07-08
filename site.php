@@ -308,4 +308,28 @@ $app->post("/forgot/reset", function(){
 
 });
 
+$app->get("/profile", function(){
+
+	User::verifyLogin(false);
+
+	$user = User::getFromSession();
+
+	$page = new Page();
+
+	$page->setTpl("profile", [
+		'user'=>$user->getvalues(),
+		'profileMsg'=>'',
+		'profileError'=>''
+	]);
+
+});
+
+$app->post("/profile", function(){
+
+	User::verifyLogin(false);
+
+	$user = User::getFromSession();
+
+});
+
  ?>
