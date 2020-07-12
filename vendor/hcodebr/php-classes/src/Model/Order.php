@@ -1,65 +1,67 @@
-<?php
+<?php 
 
 namespace Hcode\Model;
 
-use \Hcode\Model;
 use \Hcode\DB\Sql;
+use \Hcode\Model;
 use \Hcode\Model\Cart;
 
 class Order extends Model {
 
-    const SUCCESS = "Order-Success";
-    const ERROR = "Order-Error";
-    
-    public function save()
-    {
-        
-        $sql = new Sql();
-        
-        $results = $sql->select("CALL sp_orders_save(:idorder, :idcart, :iduser, :idstatus, :idaddress, :vltotal)", [
-            ':idorder'=>$this->getidorder(),
-            ':idcart'=>$this->getidcart(),
-            ':iduser'=>$this->getiduser(),
-            ':idstatus'=>$this->getidstatus(),
-            ':idaddress'=>$this->getidaddress(),
-            ':vltotal'=>$this->getvltotal()
-        ]);
+	const SUCCESS = "Order-Success";
+	const ERROR = "Order-Error";
 
-        if (count($results) > 0) {
-            $this->setData($results[0]);
-        }
-        
-    }
-
-    public function get()
-    {
-        
-        $sql = new Sql();
-
-        $results = $sql->select("SELECT *
-            FROM tb_orders a
-            INNER JOIN tb_ordersstatus b USING(idstatus)
-            INNER JOIN tb_cart c USING(idcart)
-            INNER JOIN tb_users d ON d.iduser = a.iduser
-            INNER JOIN tb_address e USING(idaddress)
-            INNER JOIN tb_persons f on f.idperson = d.idperson
-            WHERE a.idorder = :idorder
-        ", [
-            ':idorder'=>$idorder
-        ]);
-
-        if (count($results) > 0) {
-            $this->setData($results[0]);
-        }
-
-    }
-
-    public static function listAll()
+	public function save()
 	{
 
 		$sql = new Sql();
 
-		return $sql->select("SELECT * 
+		$results = $sql->select("CALL sp_orders_save(:idorder, :idcart, :iduser, :idstatus, :idaddress, :vltotal)", [
+            ':idorder'=>$this->getidorder(),
+			':idcart'=>$this->getidcart(),
+			':iduser'=>$this->getiduser(),
+			':idstatus'=>$this->getidstatus(),
+			':idaddress'=>$this->getidaddress(),
+			':vltotal'=>$this->getvltotal()
+		]);
+
+		if (count($results) > 0) {
+			$this->setData($results[0]);
+		}
+
+	}
+
+	public function get($idorder)
+	{
+
+		$sql = new Sql();
+
+		$results = $sql->select("
+			SELECT * 
+			FROM tb_orders a 
+			INNER JOIN tb_ordersstatus b USING(idstatus) 
+			INNER JOIN tb_carts c USING(idcart)
+			INNER JOIN tb_users d ON d.iduser = a.iduser
+			INNER JOIN tb_addresses e USING(idaddress)
+			INNER JOIN tb_persons f ON f.idperson = d.idperson
+			WHERE a.idorder = :idorder
+		", [
+			':idorder'=>$idorder
+		]);
+
+		if (count($results) > 0) {
+			$this->setData($results[0]);
+		}
+
+	}
+
+	public static function listAll()
+	{
+
+		$sql = new Sql();
+
+		return $sql->select("
+			SELECT * 
 			FROM tb_orders a 
 			INNER JOIN tb_ordersstatus b USING(idstatus) 
 			INNER JOIN tb_carts c USING(idcart)
@@ -69,9 +71,9 @@ class Order extends Model {
 			ORDER BY a.dtregister DESC
 		");
 
-    }
-    
-    public function delete()
+	}
+
+	public function delete()
 	{
 
 		$sql = new Sql();
@@ -80,9 +82,9 @@ class Order extends Model {
 			':idorder'=>$this->getidorder()
 		]);
 
-    }
-    
-    public function getCart():Cart
+	}
+
+	public function getCart():Cart
 	{
 
 		$cart = new Cart();
@@ -93,7 +95,7 @@ class Order extends Model {
 
 	}
 
-    public static function setError($msg)
+	public static function setError($msg)
 	{
 
 		$_SESSION[Order::ERROR] = $msg;
@@ -204,7 +206,7 @@ class Order extends Model {
 		];
 
 	}
-    
+
 }
 
 ?>

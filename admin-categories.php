@@ -83,7 +83,7 @@ $app->get("/admin/categories/:idcategory/delete", function($idcategory){
 	$category->delete();
 
 	header('Location: /admin/categories');
-	exit;	
+	exit; 
 
 });
 

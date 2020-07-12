@@ -48,8 +48,8 @@
                   <tr>
                     <td>{$value.idorder}</td>
                     <td>{$value.desperson}</td>
-                    <td>R${function="format_real($value.vltotal)"}</td>
-                    <td>R${function="format_real($value.vlfreight)"}</td>
+                    <td>R${function="formatPrice($value.vltotal)"}</td>
+                    <td>R${function="formatPrice($value.vlfreight)"}</td>
                     <td>{$value.desstatus}</td>
                     <td>
                       <a href="/admin/orders/{$value.idorder}" class="btn btn-default btn-xs"><i class="fa fa-search"></i> Detalhes</a>

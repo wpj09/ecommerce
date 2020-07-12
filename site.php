@@ -148,7 +148,7 @@ $app->get("/checkout", function(){
 	$address = new Address();
 	$cart = Cart::getFromSession();
 
-	if (isset($_GET['zipcode'])) {
+	if (!isset($_GET['zipcode'])) {
 
 		$_GET['zipcode'] = $cart->getdeszipcode();
 
@@ -186,48 +186,48 @@ $app->get("/checkout", function(){
 
 });
 
-$app->post("/checkout", function() {
+$app->post("/checkout", function(){
 
 	User::verifyLogin(false);
 
-	if(!isset($_POST['zipcode']) || $_POST['zipcode'] === '') {
+	if (!isset($_POST['zipcode']) || $_POST['zipcode'] === '') {
 		Address::setMsgError("Informe o CEP.");
-		header("Location: /checkout");
+		header('Location: /checkout');
 		exit;
 	}
 
-	if(!isset($_POST['desaddress']) || $_POST['desaddress'] === '') {
+	if (!isset($_POST['desaddress']) || $_POST['desaddress'] === '') {
 		Address::setMsgError("Informe o endereço.");
-		header("Location: /checkout");
+		header('Location: /checkout');
 		exit;
 	}
 
-	if(!isset($_POST['desdistrict']) || $_POST['desdistrict'] === '') {
+	if (!isset($_POST['desdistrict']) || $_POST['desdistrict'] === '') {
 		Address::setMsgError("Informe o bairro.");
-		header("Location: /checkout");
+		header('Location: /checkout');
 		exit;
 	}
 
-	if(!isset($_POST['descity']) || $_POST['descity'] === '') {
+	if (!isset($_POST['descity']) || $_POST['descity'] === '') {
 		Address::setMsgError("Informe a cidade.");
-		header("Location: /checkout");
+		header('Location: /checkout');
 		exit;
 	}
 
-	if(!isset($_POST['desstate']) || $_POST['desstate'] === '') {
+	if (!isset($_POST['desstate']) || $_POST['desstate'] === '') {
 		Address::setMsgError("Informe o estado.");
-		header("Location: /checkout");
+		header('Location: /checkout');
 		exit;
 	}
 
-	if(!isset($_POST['descountry']) || $_POST['descountry'] === '') {
+	if (!isset($_POST['descountry']) || $_POST['descountry'] === '') {
 		Address::setMsgError("Informe o país.");
-		header("Location: /checkout");
+		header('Location: /checkout');
 		exit;
 	}
 
 	$user = User::getFromSession();
-	
+
 	$address = new Address();
 
 	$_POST['deszipcode'] = $_POST['zipcode'];
@@ -302,7 +302,7 @@ $app->post("/register", function(){
 
 	if (!isset($_POST['name']) || $_POST['name'] == '') {
 
-		User::setErrorRegister("Preencha seu nome.");
+		User::setErrorRegister("Preencha o seu nome.");
 		header("Location: /login");
 		exit;
 
@@ -323,7 +323,7 @@ $app->post("/register", function(){
 		exit;
 
 	}
-	//tratanto a questão de usuários com mesmo email
+
 	if (User::checkLoginExist($_POST['email']) === true) {
 
 		User::setErrorRegister("Este endereço de e-mail já está sendo usado por outro usuário.");
@@ -347,7 +347,7 @@ $app->post("/register", function(){
 
 	User::login($_POST['email'], $_POST['password']);
 
-	header("Location: /checkout");
+	header('Location: /checkout');
 	exit;
 
 });
@@ -356,7 +356,7 @@ $app->get("/forgot", function() {
 
 	$page = new Page();
 
-	$page->setTpl("forgot");
+	$page->setTpl("forgot");	
 
 });
 
@@ -369,13 +369,14 @@ $app->post("/forgot", function(){
 
 });
 
-$app->get("/forgot/sent", function() {
+$app->get("/forgot/sent", function(){
 
 	$page = new Page();
 
-	$page->setTpl("forgot-sent");
+	$page->setTpl("forgot-sent");	
 
 });
+
 
 $app->get("/forgot/reset", function(){
 
@@ -392,9 +393,9 @@ $app->get("/forgot/reset", function(){
 
 $app->post("/forgot/reset", function(){
 
-	$forgot = User::validForgotDecrypt($_POST["code"]);
+	$forgot = User::validForgotDecrypt($_POST["code"]);	
 
-	User::setForgotUsed($forgot["idrecovery"]);
+	User::setFogotUsed($forgot["idrecovery"]);
 
 	$user = new User();
 
@@ -462,7 +463,7 @@ $app->post("/profile", function(){
 
 	$user->setData($_POST);
 
-	$user->update();
+	$user->save();
 
 	User::setSuccess("Dados alterados com sucesso!");
 
