@@ -7,9 +7,9 @@ use \Hcode\Model;
 
 class Address extends Model {
 
-    const SESSION_ERROR = "AddressError";
+	const SESSION_ERROR = "AddressError";
 
-    public static function getCEP($nrcep)
+	public static function getCEP($nrcep)
 	{
 
 		$nrcep = str_replace("-", "", $nrcep);
@@ -46,9 +46,9 @@ class Address extends Model {
 
 		}
 
-    }
-    
-    public function save()
+	}
+
+	public function save()
 	{
 
 		$sql = new Sql();
@@ -72,7 +72,7 @@ class Address extends Model {
 
 	}
 
-    public static function setMsgError($msg)
+	public static function setMsgError($msg)
 	{
 
 		$_SESSION[Address::SESSION_ERROR] = $msg;
