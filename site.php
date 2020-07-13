@@ -263,6 +263,10 @@ $app->post("/checkout", function(){
 		header("Location: /order/".$order->getidorder()."/paypal");
 		break;
 
+		case 3:
+		header("Location: /order/".$order->getidorder());
+		break;
+
 	}
 	exit;
 
